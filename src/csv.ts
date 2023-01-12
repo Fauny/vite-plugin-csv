@@ -1,23 +1,23 @@
-export function loadCSV(code: string) {
-  const csv = code.split(/\r\n|\n|\r/);
-  const records: unknown[] = [];
-  const headers = csv.slice(0)[0].split(",");
-  const rows = csv.slice(1).filter((row) => row);
+export function loadCSV(code: string, seperator = ",") {
+  const csv = code.split(/\r\n|\n|\r/)
+  const records: unknown[] = []
+  const headers = csv.slice(0)[0].split(seperator)
+  const rows = csv.slice(1).filter((row) => row)
 
   for (let row of rows) {
-    const record = row.split(",");
-    if (record.every((item) => !item)) continue;
-    records.push(record);
+    const record = row.split(seperator)
+    if (record.every((item) => !item)) continue
+    records.push(record)
   }
 
   return records.reduce((prev: unknown[], next: unknown) => {
-    const entry = {};
+    const entry = {}
     headers.forEach((h, i) => {
-      (entry as Record<string, string>)[h] = (next as Record<string, string>)[
+      ;(entry as Record<string, string>)[h] = (next as Record<string, string>)[
         i
-      ];
-    });
-    prev.push(entry);
-    return prev;
-  }, []);
+      ]
+    })
+    prev.push(entry)
+    return prev
+  }, [])
 }
